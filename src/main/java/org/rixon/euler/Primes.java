@@ -16,10 +16,12 @@ public class Primes implements Iterable<Long> {
 	}
 
 	public boolean isPrime(long n) {
+		boolean lastResult;
 		while (n > highestRequest) {
 			highestRequest+=2;
-			addIfPrime(highestRequest);
+			lastResult = addIfPrime(highestRequest);
 		}
+		
 		return Collections.binarySearch(primes, n) >= 0;
 	}
 
