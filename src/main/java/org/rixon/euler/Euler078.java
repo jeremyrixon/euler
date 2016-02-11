@@ -2,28 +2,36 @@ package org.rixon.euler;
 
 public class Euler078 {
 	
+	static final int N = 100000;
+	
+	static final int[][] cache = new int[N][];
+
 	public static void main(String[] args) {
-		for (long n = 2; n < 1000; n++) {
-			System.out.format("%5d %5d%n", n, countRemaining(n, n));
-		};
-	}
-
-	private static long countRemaining(long n, long m) {
-		if (m > n) {
-			m = n;
+		for (int m = 1; m < N; m++) {
+			cache[m] = new int[m + 1];
+			cache[m][1] = 1;
+			for (int n = 2; n < m; n++) {
+				cache[m][n] = (cache[m][n-1] + cache[m-n][n < m-n ? n : m-n]) % 1000000;
+			}
+			cache[m][m] = (cache[m][m-1] + 1) % 1000000;
+			if (cache[m][m] == 0) {
+				System.out.format("%7d %20d%n", m, cache[m][m]);
+			}
 		}
-		if (m <= 1) {
-			return 1;
-		}
-		if (m == 2) {
-			return n / 2 + 1;
-		}
-
-		int count = 0;
-		for (long i = m; i >= 1; i--) {
-			count += countRemaining(n - i, i);
-		}
-		return count;
 	}
 	
+	
+	public static void main1(String[] args) {
+		for (int m = 1; m < N; m++) {
+			cache[m] = new int[m + 1];
+			cache[m][1] = 1;
+			for (int n = 2; n < m; n++) {
+				cache[m][n] = cache[m][n-1] + cache[m-n][n < m-n ? n : m-n];
+			}
+			cache[m][m] = cache[m][m-1] + 1;
+		}
+		for (int m = 1; m < N; m++) {
+			System.out.format("%7d %20d%n", m, cache[m][m]);
+		}
+	}
 }

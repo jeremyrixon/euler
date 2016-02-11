@@ -1,6 +1,6 @@
 package org.rixon.euler;
 
-public class Euler079 {
+public class Euler074 {
 	static final int N = 1000000;
 	static final int M = N * 3;
 	
