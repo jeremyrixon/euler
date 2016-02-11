@@ -7,10 +7,8 @@ public class Square {
 	protected static Random r = new Random();
 	protected String name;
 	protected Square next;
-	protected Square[] dests;
 	protected int myNumber = -1;
 	protected double count = 0;
-	protected double prevCount = 1;
 	
 
 	public Square(String name) {
@@ -34,12 +32,8 @@ public class Square {
 		}
 	}
 
-	public void setDests(Square... dests) {
-		this.dests = dests;
-	}
-
-	public void incCount(double d) {
-		count+=d;
+	public void incCount() {
+		count++;
 	}
 
 	
@@ -56,12 +50,4 @@ public class Square {
 		return String.format("%5s  %2d %.2f", name, myNumber, count);
 	}
 
-	public void setPrevCount() {
-		prevCount = count;
-	}
-
-	public double getPrevCount() {
-		return prevCount;
-	}
-	
 }
