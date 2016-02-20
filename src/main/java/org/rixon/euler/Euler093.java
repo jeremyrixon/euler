@@ -13,11 +13,11 @@ A op ((B op C) op D)
  */
 
 public class Euler093 {
+	public static int N = 1000;
 
 	public static void main(String[] args)  {
 		int max = 0;
 		String winning = "?";
-		int N = 1000;
 		int digits[] = new int[4];
 		for (digits[0] = 1; digits[0] <= 6; digits[0]++) {
 			for (digits[1] = digits[0] + 1; digits[1] <= 7; digits[1]++) {
@@ -50,18 +50,19 @@ public class Euler093 {
 									for(int op1 = 0; op1 < 4; op1++) {
 										for(int op2 = 0; op2 < 4; op2++) {
 											for(int op3 = 0; op3 < 4; op3++) {
-												f1(digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f2(digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f3(digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f4(digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f5(digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												/*
-												f1(-digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f2(-digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f3(-digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f4(-digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												f5(-digits[v1], digits[v2], digits[v3], digits[v4], op1, op2, op3, bs);
-												*/
+												for (int s1 = -1; s1 <= 1; s1+=2) {
+													for (int s2 = -1; s2 <= 1; s2+=2) {
+														for (int s3 = -1; s3 <= 1; s3+=2) {
+															for (int s4 = -1; s4 <= 1; s4+=2) {
+																f1(s1 * digits[v1], s2 * digits[v2], s3 * digits[v3], s4 * digits[v4], op1, op2, op3, bs);
+																f2(s1 * digits[v1], s2 * digits[v2], s3 * digits[v3], s4 * digits[v4], op1, op2, op3, bs);
+																f3(s1 * digits[v1], s2 * digits[v2], s3 * digits[v3], s4 * digits[v4], op1, op2, op3, bs);
+																f4(s1 * digits[v1], s2 * digits[v2], s3 * digits[v3], s4 * digits[v4], op1, op2, op3, bs);
+																f5(s1 * digits[v1], s2 * digits[v2], s3 * digits[v3], s4 * digits[v4], op1, op2, op3, bs);
+															}
+														}
+													}
+												}
 											}
 										}
 									}
@@ -81,7 +82,6 @@ public class Euler093 {
 		}
 		return N - 1;
 	}
-
 	// ((A op B) op C) op D
 	private static void f1(int a, int b, int c, int d, int op1, int op2, int op3, BitSet bs) {
 		LongRatio r = apply(op1, new LongRatio(a, 1), new LongRatio(b, 1));
@@ -89,11 +89,11 @@ public class Euler093 {
 		r = apply(op3, r, new LongRatio(d, 1));
 		if (r != null && r.isInteger()) {
 			long v = r.getAsLong();
-			if (v >= 0 && v < bs.size()) {
+			if (v >= 0 && v < N) {
 				bs.set((int) v);
 			}
 		}
-		System.out.println("(( " + a + " " + op(op1) + " " + b + " ) " + op(op2) + " " + c + " )" + " " + op(op3) + " " + d + " ) = " + r);
+		//System.out.println("(( " + a + " " + op(op1) + " " + b + " ) " + op(op2) + " " + c + " )" + " " + op(op3) + " " + d + " ) = " + r);
 	}
 
 	// (A op B) op (C op D)
@@ -103,20 +103,21 @@ public class Euler093 {
 		LongRatio r = apply(op2, r1, r2);
 		if (r != null && r.isInteger()) {
 			long v = r.getAsLong();
-			if (v >= 0 && v < bs.size()) {
+			if (v >= 0 && v < N) {
 				bs.set((int) v);
 			}
 		}
+		//System.out.println("( " + a + " " + op(op1) + " " + b + " ) " + op(op2) + " ( " + c + " " + op(op3) + " " + d + " ) = " + r);
 	}
 	
 	// A op (B op (C op D))
 	private static void f3(int a, int b, int c, int d, int op1, int op2, int op3, BitSet bs) {
 		LongRatio r = apply(op3, new LongRatio(c, 1), new LongRatio(d, 1));
 		r = apply(op2, new LongRatio(b, 1), r);
-		r = apply(op1, new LongRatio(d, 1), r);
+		r = apply(op1, new LongRatio(a, 1), r);
 		if (r != null && r.isInteger()) {
 			long v = r.getAsLong();
-			if (v >= 0 && v < bs.size()) {
+			if (v >= 0 && v < N) {
 				bs.set((int) v);
 			}
 		}
@@ -129,7 +130,7 @@ public class Euler093 {
 		r = apply(op1, new LongRatio(a, 1), r);
 		if (r != null && r.isInteger()) {
 			long v = r.getAsLong();
-			if (v >= 0 && v < bs.size()) {
+			if (v >= 0 && v < N) {
 				bs.set((int) v);
 			}
 		}
@@ -142,11 +143,12 @@ public class Euler093 {
 		r = apply(op3, r, new LongRatio(d, 1));
 		if (r != null && r.isInteger()) {
 			long v = r.getAsLong();
-			if (v >= 0 && v < bs.size()) {
+			if (v >= 0 && v < N) {
 				bs.set((int) v);
 			}
 		}
 	}
+
 
 	
 	private static LongRatio apply(int op1, LongRatio i, LongRatio j) {
