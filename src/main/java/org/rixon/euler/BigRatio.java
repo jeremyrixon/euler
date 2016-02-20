@@ -3,18 +3,18 @@ package org.rixon.euler;
 import java.math.BigInteger;
 import static java.math.BigInteger.ONE;
 
-public class Ratio {
+public class BigRatio {
 
 	private BigInteger numerator;
 	private BigInteger denominator;
 	
-	public Ratio(BigInteger numerator, BigInteger denominator) {
+	public BigRatio(BigInteger numerator, BigInteger denominator) {
 		this.numerator = numerator;
 		this.denominator = denominator;
 		reduce();
 	}
 
-	public Ratio(long numerator, long denominator) {
+	public BigRatio(long numerator, long denominator) {
 		this.numerator = BigInteger.valueOf(numerator);
 		this.denominator = BigInteger.valueOf(denominator);
 		reduce();
@@ -33,22 +33,22 @@ public class Ratio {
 		return "(" + numerator + "/" + denominator + ")";
 	}
 
-	public Ratio add(BigInteger n) {
-		Ratio result = new Ratio(numerator.add(n.multiply(denominator)), denominator);
+	public BigRatio add(BigInteger n) {
+		BigRatio result = new BigRatio(numerator.add(n.multiply(denominator)), denominator);
 		return result;
 	}
 
-	public Ratio add(long n) {
+	public BigRatio add(long n) {
 		return add(BigInteger.valueOf(n));
 	}
 
-	public Ratio addOne() {
-		Ratio result = new Ratio(numerator.add(denominator), denominator);
+	public BigRatio addOne() {
+		BigRatio result = new BigRatio(numerator.add(denominator), denominator);
 		return result;
 	}
 	
-	public Ratio inverse() {
-		Ratio result = new Ratio(denominator, numerator);
+	public BigRatio inverse() {
+		BigRatio result = new BigRatio(denominator, numerator);
 		return result;
 	}
 	
@@ -77,7 +77,7 @@ public class Ratio {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ratio other = (Ratio) obj;
+		BigRatio other = (BigRatio) obj;
 		if (denominator == null) {
 			if (other.denominator != null)
 				return false;

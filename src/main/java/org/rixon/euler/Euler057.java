@@ -6,9 +6,9 @@ public class Euler057 {
 
 	public static void main(String[] args)  {
 		int count = 0;
-		Ratio r = new Ratio(1, 2);
+		BigRatio r = new BigRatio(1, 2);
 		for (int i = 1; i <= 1000; i++) {
-			Ratio n = r.addOne();
+			BigRatio n = r.addOne();
 			if (countDigits(n.getNumerator()) > countDigits(n.getDenominator())) {
 				System.out.println("" + i + " " + n);
 				count++;

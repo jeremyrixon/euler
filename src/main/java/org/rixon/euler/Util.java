@@ -4,6 +4,7 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class Util {
 	public static BigInteger sqrt(BigInteger n) {
@@ -86,7 +87,7 @@ public class Util {
 		return true;
 	}
 	
-	public long gcd(long a, long b) {
+	public static long gcd(long a, long b) {
 	    if (a == 0)
 	        return b;
 
@@ -178,6 +179,22 @@ public class Util {
 		    n = n - b;
 		  }
 		  return b - 1;
+	}
+	
+	public static int[] divisors(int n) {
+		int[] divisors = new int[n / 2 + 2];
+		divisors[0] = 1;
+		divisors[1] = n;
+		int num = 2;
+		for (int i = 2; i * i <= n; i++) {
+			if (n % i == 0) {
+				divisors[num++] = i;
+				if (i * i < n) {
+					divisors[num++] = n / i;
+				}
+			}
+		}
+		return Arrays.copyOf(divisors, num);
 	}
 
 }
