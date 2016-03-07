@@ -36,6 +36,14 @@ public class Util {
 		
 		return numerator / denominator;
 	}
+	
+	public static long factorial(int n) {
+		int f = 2;
+		for (; n > 2; n--) {
+			f *= n;
+		}
+		return f;
+	}
 
 	
 	public static int totient(int n, int[] primes) {
@@ -197,4 +205,20 @@ public class Util {
 		return Arrays.copyOf(divisors, num);
 	}
 
+	public static int[] properDivisors(int n) {
+		int[] divisors = new int[(n / 2 + 1)];
+		divisors[0] = 1;
+		int num = 1;
+		for (int i = 2; i * i <= n; i++) {
+			if (n % i == 0) {
+				divisors[num++] = i;
+				if (i * i < n) {
+					divisors[num++] = n / i;
+				}
+			}
+		}
+		return Arrays.copyOf(divisors, num);
+	}
+	
+	
 }
