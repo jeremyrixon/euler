@@ -220,5 +220,13 @@ public class Util {
 		return Arrays.copyOf(divisors, num);
 	}
 	
+	public static int dotProduct(int[] a, int[] b) {
+		int dp = 0;
+		for (int i = 0; i < a.length; i++) {
+			dp += a[i]*b[i];
+		}
+		return dp;
+	}
+	
 	
 }
