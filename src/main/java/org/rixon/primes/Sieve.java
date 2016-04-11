@@ -6,7 +6,7 @@ public class Sieve {
 
 	public Sieve(int size) {
 		this.size = size;
-		primes = new WheelBitSet(size);
+		primes = new WheelBitSet();
 		sieve();
 	}
 	
@@ -15,22 +15,29 @@ public class Sieve {
 	}
 
 	private void sieve() {
-		for (int s = 5; s * s < size; s++) {
+		for (int s = 11; s * s < size; s++) {
 			if (primes.get(s)) {
 				for (int t = s * 2; t < size; t += s) {
 					primes.clear(t);
 				}
 			}
 		}
+		primes.printWheel();
+		primes.printBits();
 	}
 
 	public static void main(String[] args) {
-		int n = 10000000;
+		int n = 30030;
+		long start = System.nanoTime();
 		Sieve s = new Sieve(n);
-		for (int i = 1; i < n; i++) {
+		int count = 0;
+		for (int i = 2; i < n; i++) {
 			if (s.isPrime(i)) {
-				System.out.format("%4d\n", i);
+				count++;
 			}
 		}
+		long finish = System.nanoTime();
+		
+		System.out.format("%n%d %d%n", count, (finish - start) / 1000000);
 	}
 }
