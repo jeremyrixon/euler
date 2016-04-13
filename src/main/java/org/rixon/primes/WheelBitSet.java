@@ -11,7 +11,7 @@ public class WheelBitSet {
 	int[] primes;
 
 	public WheelBitSet() {
-		this(2, 3, 5, 7, 11, 13);
+		this(2, 3, 5, 7, 11);
 	}
 
 	public WheelBitSet(int... primes) {
@@ -35,6 +35,10 @@ public class WheelBitSet {
 			}
 		}
 		System.out.format("Outer: %d, Inner: %d, Percentage: %f%n", wheelSize, wheelInnerSize, wheelInnerSize * 100f / wheelSize);
+
+//		for(int n = 1; n < wheelSize; n++) {
+//			System.out.format("%6d : %6d  ---  %6d : %6d%n", n, lookup[n], wheelSize - n, lookup[wheelSize - n]);
+//		}
 	}
 	
 	

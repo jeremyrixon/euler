@@ -1,9 +1,12 @@
 package org.rixon.euler;
 
 import java.math.BigInteger;
-import static java.math.BigInteger.ONE;
 
-public class BigRatio {
+public class BigRatio implements Comparable<BigRatio> {
+	public static BigRatio ZERO = new BigRatio(0, 1);
+	public static BigRatio HALF = new BigRatio(1, 2);
+	public static BigRatio ONE = new BigRatio(1, 1);
+	public static BigRatio TWO = new BigRatio(2, 1);
 
 	private BigInteger numerator;
 	private BigInteger denominator;
@@ -51,14 +54,29 @@ public class BigRatio {
 		BigRatio result = new BigRatio(denominator, numerator);
 		return result;
 	}
+
+	public BigRatio add(BigRatio r) {
+		return new BigRatio(numerator.multiply(r.denominator).add(r.numerator.multiply(denominator)), denominator.multiply(r.denominator));
+	}
+	
+	
+	public BigRatio subtract(BigRatio r) {
+		return new BigRatio(numerator.multiply(r.denominator).subtract(r.numerator.multiply(denominator)), denominator.multiply(r.denominator));
+	}
+	
+	public BigRatio multiply(BigRatio r) {
+		return new BigRatio(numerator.multiply(r.numerator), denominator.multiply(r.denominator));
+	}
 	
 	private void reduce() {
 		BigInteger gcd = numerator.gcd(denominator);
-		if (gcd.compareTo(ONE) > 0) {
+		if (gcd.compareTo(BigInteger.ONE) > 0) {
 			numerator = numerator.divide(gcd);
 			denominator = denominator.divide(gcd);
 		}
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -91,6 +109,17 @@ public class BigRatio {
 		return true;
 	}
 
+	@Override
+	public int compareTo(BigRatio o) {
+		return numerator.multiply(o.denominator).compareTo(o.numerator.multiply(denominator));
+	}
 	
+	public boolean greaterThan(BigRatio r) {
+		return compareTo(r) > 0;
+	}
+
+	public boolean lessThan(BigRatio r) {
+		return compareTo(r) < 0;
+	}
 
 }

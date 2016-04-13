@@ -22,12 +22,12 @@ public class Sieve {
 				}
 			}
 		}
-		primes.printWheel();
-		primes.printBits();
+		//primes.printWheel();
+		//primes.printBits();
 	}
 
 	public static void main(String[] args) {
-		int n = 30030;
+		int n = 10000000;
 		long start = System.nanoTime();
 		Sieve s = new Sieve(n);
 		int count = 0;
