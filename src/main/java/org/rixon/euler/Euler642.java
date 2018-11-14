@@ -4,25 +4,16 @@ public class Euler642 {
 	public static void main(String[] args) {
 
 		long start = System.nanoTime();
-		final int N = 100000000;
-		final int[] p = new int[N];
-		p[0]=2; p[1]=3; p[2]=5; p[3]=7;
-		int n = 4;
 
-		for (int i = 11; n < N; i++) {
-			p[n++] = i;
-			for(int j = 0, k=p[j]; k*k <= i; j++, k=p[j]) {
-				if (i % k == 0) {
-					n--;
-					break;
-				}
-			}
-		}
+//		final long N = 201820182018l;
+		final long N = 10000;
+		final long sum = N * (N + 1) / 2 - 1;
 
 		long duration = System.nanoTime() - start;
 
 		System.out.println(duration / 1E9);
-		System.out.println(p[N-1]);
+		System.out.println(sum);
+		System.out.println(sum % 1000000000);
 	}
 
 }
