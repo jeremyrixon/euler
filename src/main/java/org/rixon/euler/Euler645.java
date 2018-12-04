@@ -1,41 +1,29 @@
 package org.rixon.euler;
 
-import java.util.BitSet;
-import java.util.Random;
-
 public class Euler645 {
-	static final int D = 12;
-
+	static final int D = 4;
+    static final double[] i = new double[D];
 
 	public static void main(String[] args) {
-		Random r = new Random();
-		long trials = 0;
-		double emporers = 0;
+	    i[1] = 1.0;
+	    i[2] = 1.0;
+	    i[3] = 1.0 + 2.0 / 3.0;
 
-		while (true) {
-			BitSet b = new BitSet(D);
-			for (int i = 0; i < 1000000; i++) {
-				b.clear();
-				while (b.cardinality() < D) {
-					int bday = r.nextInt(D);
-					b.set(bday);
-					int next1 = (bday + D + 1) % D;
-					int next2 = (bday + D + 2) % D;
-					int prev1 = (bday + D - 1) % D;
-					int prev2 = (bday + D - 2) % D;
-					if (b.get(next2) && !b.get(next1)) {
-						b.set(next1);
-					}
-					if (b.get(prev2) && !b.get(prev1)) {
-						b.set(prev1);
-					}
-					emporers++;
-				}
-				trials++;
-			}
-			System.out.format("Trials: %10d Avg: %10.6f%n", trials, emporers / trials);
-		}
+	    for (int d = 3; d <= D; d++) {
+            System.out.format("E(%d)=%f%n",d,e(d));
+        }
 	}
+
+    private static double e(int d) {
+	    return 1 + e(d, d - 1);
+    }
+
+    private static double e(int d, int j) {
+        if (j < 4) {
+            return 1 + i[j] * d / j;
+        }
+        return 1.0;
+    }
 
 
 }
