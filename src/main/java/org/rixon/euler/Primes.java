@@ -93,5 +93,4 @@ public class Primes implements Iterable<Long> {
 			}
 		}
 	}
-
 }

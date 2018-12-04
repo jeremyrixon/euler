@@ -8,24 +8,24 @@ public class WheelBitSet {
 	short wheelInnerSize;
 	BitSet composites;
 	short[] lookup;
-	int[] primes;
+	long[] primes;
 
 	public WheelBitSet() {
 		this(2, 3, 5, 7, 11);
 	}
 
-	public WheelBitSet(int... primes) {
+	public WheelBitSet(long... primes) {
 		this.primes = primes;
 		composites = new BitSet();
 		wheelSize = 1;
-		for (int prime: primes) {
+		for (long prime: primes) {
 			wheelSize *= prime;
 		}
 		lookup = new short[wheelSize];
 		lookup[0] = -1;
-		for (int prime: primes) {
-			for (int p = prime; p < wheelSize; p += prime) {
-				lookup[p] = -1;
+		for (long prime: primes) {
+			for (long p = prime; p < wheelSize; p += prime) {
+				lookup[(int)p] = -1;
 			}
 		}
 		wheelInnerSize = 0;
@@ -35,40 +35,37 @@ public class WheelBitSet {
 			}
 		}
 		System.out.format("Outer: %d, Inner: %d, Percentage: %f%n", wheelSize, wheelInnerSize, wheelInnerSize * 100f / wheelSize);
-
-//		for(int n = 1; n < wheelSize; n++) {
-//			System.out.format("%6d : %6d  ---  %6d : %6d%n", n, lookup[n], wheelSize - n, lookup[wheelSize - n]);
-//		}
 	}
-	
-	
-	public boolean get(int n) {
+
+
+	public boolean get(long n) {
 		if (n <= primes[primes.length - 1]) {
 			return Arrays.binarySearch(primes, n) >= 0;
 		}
-		int l = lookup[n % wheelSize];
-		return l == -1 ? false : !composites.get(n / wheelSize * wheelInnerSize + l);
+		int l = lookup[(int)(n % wheelSize)];
+		return l == -1 ? false : !composites.get((int)(n / wheelSize * wheelInnerSize + l));
 	}
 
-	public void clear(int n) {
-		int l = lookup[n % wheelSize];
+	public void clear(long n) {
+		int l = lookup[(int)(n % (long)wheelSize)];
 		if (l != -1) {
-			composites.set(n / wheelSize * wheelInnerSize + l);
+			composites.set((int)(n / wheelSize * wheelInnerSize + l));
 		}
 	}
-	
-	public static void main(String[] argv) {
-		WheelBitSet w = new WheelBitSet();
-	}
 
-	public void printBits() {
-		for (int i = 0; i < wheelInnerSize; i++) {
-			System.out.print(composites.get(i) ? '0' : '1');
+	public long nextPrime(long n) {
+		if (n < primes[primes.length - 1]) {
+			for (int i = 0; i < primes.length - 1; i++) {
+				if (primes[i] > n) {
+					return primes[i];
+				}
+			}
 		}
-		System.out.println();
-	}
-
-	public void printWheel() {
-		System.out.println(Arrays.toString(lookup));
+		for (; ; n++) {
+			int l = lookup[(int)(n % wheelSize)];
+			if (l != -1 && !composites.get((int)(n / wheelSize * wheelInnerSize + l))) {
+				return n;
+			}
+		}
 	}
 }
