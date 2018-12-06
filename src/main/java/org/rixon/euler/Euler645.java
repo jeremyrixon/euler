@@ -19,10 +19,18 @@ public class Euler645 {
     }
 
     private static double e(int d, int j) {
-        if (j < 4) {
-            return 1 + i[j] * d / j;
+        if (j < 2) {
+            throw new RuntimeException("j=" + j);
         }
-        return 1.0;
+        if (j == 2) {
+            return 1.0 + 2.0 / d;
+        } else if (j == 3) {
+            return 1.0 + 2.0 / d * e(d, 2) + 1.0 / d;
+        } else if (j == 4) {
+            return 1.0 + 2.0 / d * e(d, 2) +  2.0 / d * e(d, 3);
+        } else {
+            return 1.0 + 2.0 / d * e(d, 2) +  2.0 / d * e(d, 3) + (j - 4.0) / d;
+        }
     }
 
 
