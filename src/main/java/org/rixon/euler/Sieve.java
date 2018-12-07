@@ -49,4 +49,8 @@ public class Sieve {
 		return primes;
 		
 	}
+
+	public int nextPrime(int p) {
+		return composites.nextClearBit(p);
+	}
 }
