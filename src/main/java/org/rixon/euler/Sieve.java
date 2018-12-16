@@ -51,6 +51,9 @@ public class Sieve {
 	}
 
 	public int nextPrime(int p) {
+		if (isPrime(p)) {
+			p++;
+		}
 		return composites.nextClearBit(p);
 	}
 }
