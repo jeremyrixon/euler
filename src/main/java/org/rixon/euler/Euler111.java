@@ -1,21 +1,31 @@
 package org.rixon.euler;
 
+import java.math.BigInteger;
+
 public class Euler111 {
 	public static void main(String[] args) {
 
-//		System.out.println(
-//			f(0, 8, 10) +
-//			f(1, 8, 10) +
-//			f(2, 8, 10) +
-//			f(3, 8, 10) +
-//			f(4, 8, 10) +
-//			f(5, 7, 10) +
-//			f(6, 8, 10) +
-//			f(7, 9, 10) +
-//			f(8, 7, 10) +
-//			f(9, 8, 10)
-//		);
 
+		System.out.println(
+			     f(0, 8, 10)
+			.add(f(1, 9, 10))
+			.add(f(2, 8, 10))
+			.add(f(3, 9, 10))
+			.add(f(4, 9, 10))
+			.add(f(5, 9, 10))
+			.add(f(6, 9, 10))
+			.add(f(7, 9, 10))
+			.add(f(8, 8, 10))
+			.add(f(9, 9, 10))
+		);
+
+
+//		for (int d = 0; d < 10; d++) {
+//			BigInteger l = f(d, 8, 10);
+//			System.out.format("f(%d,9,10)=%s%n",d,l.toString());
+//		}
+
+/*
 		System.out.println(
 				f(0, 2, 4) +
 				f(1, 3, 4) +
@@ -28,30 +38,38 @@ public class Euler111 {
 				f(8, 3, 4) +
 				f(9, 3, 4)
 		);
+*/
 
 	}
 
-	private static long f(int d, int m, int n) {
-		long result = 0;
-		String t = "";
-		for (int i = 0; i < m; i++) {
-			t = t + d;
-		}
-		int j = n - m;
-		for(long i = 0; i < pow(10,j); i++) {
-			String s = String.format("%0"+j+"d", i);
-			for (int k = 0; k <= j; k++) {
-				String u = s.substring(0,k) + t + s.substring(k);
-				if (!u.startsWith("0")) {
-					long ui = Long.valueOf(u);
-					if (MillerRabin.is_prime_mr(ui)) {
-						System.out.println(u);
-						result += ui;
-					}
-				}
+	private static BigInteger f(int d, int m, int n) {
+		return f(d, m, n, 0, 0, 0);
+	}
+
+	private static BigInteger f(int d, int m, int n, int current_m, int current_n, long l) {
+
+		if (current_n == n) {
+			if (BigInteger.valueOf(l).isProbablePrime(100)) {
+				return BigInteger.valueOf(l);
+			} else {
+				return BigInteger.ZERO;
 			}
 		}
-		System.out.println("*****:" + result);
+
+		if ((m-current_m) == (n-current_n)) {
+			return f(d, m, n, current_m + 1, current_n + 1, l * 10 + d);
+		}
+
+		BigInteger result = BigInteger.ZERO;
+		for (int digit = 0; digit < 10; digit++) {
+			if (current_n == 0 && digit == 0) {
+				continue;
+			}
+			if (current_m == m && digit == d) {
+				continue;
+			}
+			result = result.add(f(d, m, n, digit == d ? current_m + 1 : current_m, current_n + 1, l * 10 + digit));
+		}
 		return result;
 	}
 
@@ -62,6 +80,8 @@ public class Euler111 {
 		}
 		return result;
 	}
+
+
 
 
 }
